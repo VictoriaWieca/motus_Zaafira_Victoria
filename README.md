@@ -26,7 +26,7 @@ sequenceDiagram
     Server->>Client: word_of_today
     note left of Client: Guessing
     Client->>Client:Guessing and storing information to local storage
-    Client->>Server: score.html
+    Client->>Server: /score.html
     Server->>Client: score.html
     Client->>Client: display score from local storage
 ```
