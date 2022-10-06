@@ -20,6 +20,12 @@
       if(localStorage.getItem("myScore")===null){
         localStorage.setItem("myScore", "");
       }
+      if(localStorage.getItem("myAverage")===null){
+        localStorage.setItem("myAverage", "");
+      }
+      if(localStorage.getItem("nbTry")===null){
+        localStorage.setItem("nbTry", "");
+      }
 
         word_of_today = "";
         $.get("/word", (data)=> {word_of_today = data})
@@ -30,31 +36,39 @@
         number_of_letters = word_of_today.length;
 
         function compare(){
+            average = localStorage.getItem('myAverage');
+            nbTry = localStorage.getItem('nbTry');
+            newNbTry = parseInt(nbTry) + 1
+            localStorage.setItem("nbTry", newNbTry);
             answer = $("#response").val();
             console.log(answer+"-"+word_of_today)
             //modification du score
             score = localStorage.getItem('myScore');
-            if(score==""){
-                localStorage.setItem('myScore', 1);
-            }
-            else{
-            newScore = parseInt(score)+1;
-            localStorage.setItem('myScore', newScore);
-            }
+
             if(answer== word_of_today){
+                if(score==""){
+                    localStorage.setItem('myScore', 1);
+                }
+                else{
+                newScore = parseInt(score)+1;
+                localStorage.setItem('myScore', newScore);
+                }
                 alert(`ok ${word_of_today}`);
             }
             else{
                 alert("pas le bon mot");
                 $("#response").val('');
             }
+            newAverage = parseInt(localStorage.getItem('myScore'))/newNbTry;
+            localStorage.setItem("myAverage", newAverage);
+            console.log("nb of try : ", newNbTry);
             return false;
         }
         $("#response").focus()
         if(localStorage.getItem("name")===null){
           localStorage.setItem("name", "");
       }
-        var name = localStorage.getItem("name");
+        name = localStorage.getItem("name");
         if (name=='')
           document.location = "/login.html"; 
         else

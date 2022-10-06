@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td>Average try</td>
-                <td id="try"></td>
+                <td id="myAverage"></td>
             </tr>
         </tbody>
     </table>
@@ -45,12 +45,19 @@
     <script>
 
         // Read data
-        var myScore = localStorage.getItem('myScore');
+        myScore = localStorage.getItem('myScore');
         if (myScore=='')
             $("#myScore").html(0);
         else
             $("#myScore").html(myScore);
 
+
+        // Read data
+        myAverage = localStorage.getItem('myAverage');
+        if (myAverage=='')
+            $("#myAverage").html(0);
+        else
+            $("#myAverage").html(myAverage);
     </script>
     
   </body>
