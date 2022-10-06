@@ -8,8 +8,9 @@
     <form id="login">
         <label for="fname">Please login</label><br>
         <input type="text" id="myLogin" name="login" value=""><br>
-        <input type="submit" id="submit_login" value="Submit" onclick="setLogin()">
+        <input type="button" id="submit_login" value="Submit" onclick="setLogin()">
     </form><br><br>
+    <span id="myName"></span>
     <a href="http://localhost:3000/index.html">Back to Motus</a>
 
     <script>
@@ -17,7 +18,8 @@
             login = $("#myLogin").val();
             localStorage.setItem("name", login);
             console.log(login);
-            document.location ="/index.html";
+            $("#myName").html(login);
+            document.location = "/index.html"; 
         }
 
     </script>

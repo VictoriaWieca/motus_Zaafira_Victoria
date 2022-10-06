@@ -18,10 +18,10 @@ const words = readFileSync('data/liste_francais_utf8.txt', 'utf-8').toString().s
 var current_number = 127;
 var date = new Date();
 app.use(express.static('public'));
-app.use((req,res,next)=>{
+//app.use((req,res,next)=>{
   // console.log(req.path)
-   next()
- })
+  // next()
+ //})
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
