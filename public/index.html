@@ -18,13 +18,13 @@
 
     <script>
       if(localStorage.getItem("myScore")===null){
-        localStorage.setItem("myScore", "");
+        localStorage.setItem("myScore", 0);
       }
       if(localStorage.getItem("myAverage")===null){
-        localStorage.setItem("myAverage", "");
+        localStorage.setItem("myAverage", 0);
       }
       if(localStorage.getItem("nbTry")===null){
-        localStorage.setItem("nbTry", "");
+        localStorage.setItem("nbTry", 0);
       }
 
         word_of_today = "";
@@ -38,7 +38,7 @@
         function compare(){
             average = localStorage.getItem('myAverage');
             nbTry = localStorage.getItem('nbTry');
-            newNbTry = parseInt(nbTry) + 1
+            newNbTry = parseInt(nbTry) + 1;
             localStorage.setItem("nbTry", newNbTry);
             answer = $("#response").val();
             console.log(answer+"-"+word_of_today)
@@ -46,14 +46,9 @@
             score = localStorage.getItem('myScore');
 
             if(answer== word_of_today){
-                if(score==""){
-                    localStorage.setItem('myScore', 1);
-                }
-                else{
-                newScore = parseInt(score)+1;
-                localStorage.setItem('myScore', newScore);
-                }
-                alert(`ok ${word_of_today}`);
+              newScore = parseInt(score)+1;
+              localStorage.setItem('myScore', newScore);
+              alert(`ok ${word_of_today}`);
             }
             else{
                 alert("pas le bon mot");
