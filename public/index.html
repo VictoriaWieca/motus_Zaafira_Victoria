@@ -17,6 +17,12 @@
     <a href="http://localhost:3000/score.html">Score</a>
 
     <script>
+        if(localStorage.getItem("name")===null){
+          document.location = "/login.html"; 
+        }
+        name = localStorage.getItem("name");
+        $("#myName").html(name);
+        
         if(localStorage.getItem("myScore")===null){
           localStorage.setItem("myScore", 0);
         }
@@ -73,14 +79,7 @@
         }
 
         $("#response").focus()
-          if(localStorage.getItem("name")===null){
-            localStorage.setItem("name", "");
-        }
-        name = localStorage.getItem("name");
-        if (name=='')
-          document.location = "/login.html"; 
-        else
-          $("#myName").html(name);
+          
 
        
       </script>
