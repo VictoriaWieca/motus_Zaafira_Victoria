@@ -31,7 +31,8 @@ app.get('/word', (req, res) => {
     current_number = Math.floor(Math.random()*words.length);
     writeFileSync('actuel.txt', `${current_number}\n${current_day}`, 'utf-8');
   }
-  res.send(words[current_number])
+  word=words[current_number];
+  res.send(word);
 })
 app.get('/port', (req, res) => {
   res.send(`MOTUS APP working on ${os.hostname} port ${port}`)

@@ -53,14 +53,22 @@
         }
 
         word_of_today = "";
-        $.get("/word", (data)=> {word_of_today = data})
+        number_of_letters = 0;
+        $.get("/word", function( data ) {
+          word_of_today = data.trim();
+          number_of_letters = word_of_today.length;
+          build(word_of_today)
+        });
+
 
         document.getElementById("submit").addEventListener("click", function(event){
             event.preventDefault()
-            });
-        //word_array = word_of_today.string.split('');
-        //number_of_letters = word_array.length;
-        
+        });
+        function build(mot){
+          number_of_letters = mot.length;
+
+          console.log(`number of letters : ${number_of_letters}`)
+        }
 
         function compare(){
             nbTriesArray = JSON.parse(localStorage.getItem("nbTriesArray"));
@@ -126,7 +134,7 @@
         }
 
 
-        tableCreate(parseInt(word_of_today.length));
+        tableCreate(number_of_letters);
       </script>
 
 
