@@ -34,8 +34,8 @@ sequenceDiagram
     Client->>Server: /word
     Server->>Client: word_of_today
     note left of Client: Guessing
-    Client->>Server2: Guessing and sending information to Server2
-    Client->>Server2: /score
+    Client->>client: Guessing 
+    Client->>Server2: /score and send if the player guessed the word or not 
     Server2->>Client: score.html and database with score and average tries
     Client->>Client: display score from database
 ```
