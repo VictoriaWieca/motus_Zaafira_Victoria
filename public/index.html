@@ -6,6 +6,8 @@
       crossorigin="anonymous">
     </script>
 
+    <button onClick="logOut()">Log Out</button>
+
     <h2> Player : <span id="myName"></span> </h2>
     <form id="'proposition'">
       <label for="fname">Your guess :</label><br>
@@ -13,6 +15,7 @@
       <input type="submit" id="submit" value="Submit" onClick="compare()">
     </form>
     <span id="progress"></span>
+
 
     <a href="http://localhost:3000/score.html">Score</a>
 
@@ -79,10 +82,14 @@
             return false;
         }
 
+        function logOut(){
+          localStorage.removeItem("name");
+          document.location = "/login.html"; 
+        }
+
         $("#response").focus()
           
-
-       
+             
       </script>
   </body>
 </html>

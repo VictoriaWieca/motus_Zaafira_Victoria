@@ -21,6 +21,8 @@
             $("#myNames").html(login);
             document.location = "/index.html"; 
         }
+
+        //permet de récuperer l'appui sur entrée pour éviter un submit (le submit empêche la redirection dans la fct setLogin())
         $(document).keypress(function(e) {
             if(e.which == 13) {
                 e.preventDefault();
