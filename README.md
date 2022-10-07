@@ -35,8 +35,14 @@ sequenceDiagram
     Server->>Client: word_of_today
     note left of Client: Guessing
     Client->>Client:Guessing and storing information to local storage
-    Client->>Server: /score.html
-    Server->>Client: score.html
-    Client->>Client: display score from local storage
+    Client->>Server2: /score
+    Server2->>Client: score.html and database with score and average tries
+    Client->>Client: display score from database
 ```
+
+## API Score
+- uses a second server which uses the port 3001 
+- we call the API /score which takes as parameter the result of the submit of the player (true or false)
+- we do not have a database yet, so we cannot handle more than one user (we use local storage)
+- we want to store : login, password, the scores and average number of tries of each player
 
