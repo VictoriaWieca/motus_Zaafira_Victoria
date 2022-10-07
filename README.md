@@ -41,7 +41,7 @@ sequenceDiagram
 ```
 
 ## API Score
-- we use a second server which uses the port 3001 
+- we use a second node server which uses the port 3001 
 - we call the API /score which takes as parameter the result of the submit of the player (true or false)
 - we do not have a database yet, so we cannot handle more than one user (we use local storage)
 - we want to store : login, password, the scores and average number of tries of each player
