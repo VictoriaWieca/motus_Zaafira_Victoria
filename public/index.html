@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
+  <head>
+      <style>
+          table,
+          th,
+          td {
+              padding: 10px;
+              border: 1px solid black;
+              border-collapse: collapse;
+          }
+      </style>
+  </head>
+  
   <body>
     <script src="https://code.jquery.com/jquery-3.6.1.js" 
       integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
@@ -46,7 +58,8 @@
         document.getElementById("submit").addEventListener("click", function(event){
             event.preventDefault()
             });
-        number_of_letters = word_of_today.length;
+        //word_array = word_of_today.string.split('');
+        //number_of_letters = word_array.length;
         
 
         function compare(){
@@ -91,6 +104,31 @@
         $("#response").focus()
           
              
+        function tableCreate(nbLetters) {
+          var body = document.getElementsByTagName('body')[0];
+          var tbl = document.createElement('table');
+          tbl.style.width = '100%';
+          tbl.setAttribute('border', '1');
+          var tbdy = document.createElement('tbody');
+          for (var i = 0; i < 10; i++) {
+            var tr = document.createElement('tr');
+            for (var j = 0; j < nbLetters; j++) {
+                var td = document.createElement('td');
+//                td.appendChild(document.createTextNode('\u0020'))
+                i == 1 && j == 1 ? td.setAttribute('rowSpan', '2') : null;
+                tr.appendChild(td)
+              }
+            }
+            tbdy.appendChild(tr);
+          
+          tbl.appendChild(tbdy);
+          body.appendChild(tbl)
+        }
+
+
+        tableCreate(parseInt(word_of_today.length));
       </script>
+
+
   </body>
 </html>
