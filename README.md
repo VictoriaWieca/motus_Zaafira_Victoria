@@ -25,7 +25,7 @@ Puis aller sur http://localhost:3000
 sequenceDiagram
     Client->>+Server: /
     Server->>Client: index.html
-    note right of Client : if local storage is empty (no username)
+    note right of Client : if local storage item "name" does not exist
     Client->>Server: /login.html
     Server->>Client: login.html
     note right of Client : set login in local storage
