@@ -10,7 +10,7 @@
         <input type="text" id="myLogin" name="login" value=""><br>
         <input type="button" id="submit_login" value="Submit" onclick="setLogin()">
     </form><br><br>
-    <span id="myName"></span>
+    <span id="myNames"></span>
     <a href="http://localhost:3000/index.html">Back to Motus</a>
 
     <script>
@@ -18,9 +18,15 @@
             login = $("#myLogin").val();
             localStorage.setItem("name", login);
             console.log(login);
-            $("#myName").html(login);
+            $("#myNames").html(login);
             document.location = "/index.html"; 
         }
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+                e.preventDefault();
+                setLogin();
+            }
+        });
 
     </script>
 </body>

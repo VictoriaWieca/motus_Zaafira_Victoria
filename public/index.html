@@ -20,9 +20,10 @@
         if(localStorage.getItem("name")===null){
           document.location = "/login.html"; 
         }
-        name = localStorage.getItem("name");
-        $("#myName").html(name);
+        pseudo = localStorage.getItem("name");
+        $("#myName").html(pseudo);
         
+
         if(localStorage.getItem("myScore")===null){
           localStorage.setItem("myScore", 0);
         }
