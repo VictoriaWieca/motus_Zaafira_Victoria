@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <style>
+          table,
+          th,
+          td {
+              padding: 10px;
+              border: 1px solid black;
+              border-collapse: collapse;
+          }
+      </style>
+  </head>
+  
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" 
+      integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
+      crossorigin="anonymous">
+    </script>
+
+    <button onClick="logOut()">Log Out</button>
+
+    <a href="http://localhost:3001/score.html">Score</a>
+
+    <h2> Player : <span id="myName"></span> </h2>
+    <form id="'proposition'">
+      <label for="fname">Your guess :</label><br>
+      <input type="text" id="response" name="response" value=""><br>
+      <input type="submit" id="submit" value="Submit" onClick="compare()">
+    </form>
+  
+    <div id="table_motus"></div>
+
+    <script>
+        if(localStorage.getItem("name")===null){
+          window.location = "/login.html"; 
+        }
+        pseudo = localStorage.getItem("name");
+        $("#myName").html(pseudo);
+        
+
+        if(localStorage.getItem("myScore")===null){
+          localStorage.setItem("myScore", 0);
+        }
+        if(localStorage.getItem("nbTriesArray")===null){
+          localStorage.setItem("nbTriesArray", JSON.stringify([]));
+        }
+        if(localStorage.getItem("nbTriesToday")===null){
+          localStorage.setItem("nbTriesToday", 0);
+        }
+        if(localStorage.getItem("word")===null){
+          localStorage.setItem("word", "");
+        }
+
+        word_of_today = "";
+        number_of_letters = 0;
+        $.get("/word", function( data ) {
+          word_of_today = data.trim();
+          number_of_letters = word_of_today.length;
+          addTable(number_of_letters);
+        });
+
+
+        document.getElementById("submit").addEventListener("click", function(event){
+            event.preventDefault()
+        });
+        function build(mot){
+          number_of_letters = mot.length;
+
+          console.log(`number of letters : ${number_of_letters}`)
+        }
+
+        function compare(){
+            nbTriesArray = JSON.parse(localStorage.getItem("nbTriesArray"));
+            nb_tries_today = localStorage.getItem("nbTriesToday");
+            new_nb_tries_today=0;
+            answer = $("#response").val();
+            console.log(answer+"-"+word_of_today)
+            //modification du score
+            score = localStorage.getItem('myScore');
+
+            if(answer== word_of_today){
+              alert(`Le mot du jour est bien ${word_of_today}`);
+              new_nb_tries_today = parseInt(nb_tries_today)+1;
+              nbTriesArray.push(new_nb_tries_today);
+              localStorage.setItem("nbTriesArray", JSON.stringify(nbTriesArray));
+              localStorage.setItem('nbTriesToday', 0);
+              if(localStorage.getItem("word")!=word_of_today){
+                newScore = parseInt(score)+1;
+                localStorage.setItem('myScore', newScore);
+                localStorage.setItem("word",word_of_today);
+              }
+            }
+            else{
+                alert("Ce n'est pas le bon mot");
+                $("#response").val('');
+                new_nb_tries_today = parseInt(nb_tries_today)+1;
+                localStorage.setItem('nbTriesToday', new_nb_tries_today);
+            }
+            console.log("word of today ", word_of_today);
+            console.log("Array nb of trials : ", nbTriesArray);
+            console.log("Nb of tries today :", new_nb_tries_today);
+            return false;
+        }
+
+        function logOut(){
+          localStorage.removeItem("name");
+          window.location.reload();
+          //document.location = "/login.html"; 
+        }
+
+        $("#response").focus()
+          
+             
+        function addTable(nbLetters) {
+          var myTableDiv = document.getElementById("table_motus");
+          var table = document.createElement('TABLE');
+          table.border = '1';
+          var tableBody = document.createElement('TBODY');
+          table.appendChild(tableBody);
+          for (var i = 0; i < 10; i++) {
+            var tr = document.createElement('TR');
+            tableBody.appendChild(tr);
+            for (var j = 0; j < nbLetters; j++) {
+              var td = document.createElement('TD');
+              td.width = '35';
+              td.height = '35';
+              td.style.backgroundColor = 'blue';
+              tr.appendChild(td);
+            }
+          }
+          myTableDiv.appendChild(table);
+        }
+       
+
+      </script>
+
+
+  </body>
+</html>
