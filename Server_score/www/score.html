@@ -43,7 +43,7 @@
 
 
     <script>
-        isWin=0;
+        var isWin="";
         if(localStorage.getItem("myScore")===null){
             localStorage.setItem("myScore", 0);
         }
@@ -54,22 +54,24 @@
             localStorage.setItem("nbTriesToday", 0);
         }
         $.get("http://localhost:3000/isWin", function(data) {
-            isWin = parseInt(data);
+            isWin=parseInt(data);
+            console.log(`svp : ${isWin}`)
             nbTriesArray = JSON.parse(localStorage.getItem("nbTriesArray"));
             nb_tries_today = localStorage.getItem("nbTriesToday");
             new_nb_tries_today=0;
             score = localStorage.getItem('myScore');
 
             if(isWin == 1){
-            new_nb_tries_today = parseInt(nb_tries_today)+1;
-            nbTriesArray.push(new_nb_tries_today);
-            localStorage.setItem("nbTriesArray", JSON.stringify(nbTriesArray));
-            localStorage.setItem('nbTriesToday', 0);
+                console.log("isWin ==1 ok")
+                new_nb_tries_today = parseInt(nb_tries_today)+1;
+                nbTriesArray.push(new_nb_tries_today);
+                localStorage.setItem("nbTriesArray", JSON.stringify(nbTriesArray));
+                localStorage.setItem('nbTriesToday', 0);
 
-            //if(localStorage.getItem("word")!=word_of_today){
-                newScore = parseInt(score)+1;
-                localStorage.setItem('myScore', newScore);
-            //}
+                //if(localStorage.getItem("word")!=word_of_today){
+                    newScore = parseInt(score)+1;
+                    localStorage.setItem('myScore', newScore);
+                //}
             }
 
             else{

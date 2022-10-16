@@ -3,11 +3,15 @@ const {readFileSync, writeFileSync, promises: fsPromises} = require('fs');
 const os = require('os');
 const express = require('express')
 const app = express()
+var bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 const port = process.env.PORT || 3000
 const words = readFileSync('data/liste_francais_utf8.txt', 'utf-8').toString().split('\r\n')
-var current_number = 127;
+var current_number = readFileSync('actuel.txt', 'utf-8').split('\n')[0];
+//console.log(`current number : ${current_number}`)
 var date = new Date();
 
 
@@ -21,10 +25,15 @@ app.use((req,res,next)=>{
  })
 
  app.use(express.static('www'));
-app.get('/isWin', (req, res) => {
-  isWin = req.myWin;
-  console.log(isWin);
-  res.send(isWin);
+
+app.post('/isWin', (req, res) => {
+  theWin = req.body;
+  console.log(theWin);
+  res.send(theWin);
+})
+app.get('/isWin', (req,res) => {
+  console.log(`test ${theWin.myWin}`);
+  res.send(theWin.myWin);
 })
 
 app.get('/word', (req, res) => {

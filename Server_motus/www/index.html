@@ -41,6 +41,7 @@
         
 
         var myWin="ok";
+        console.log(`debut : ${myWin}`);
 
         if(localStorage.getItem("myScore")===null){
           localStorage.setItem("myScore", 0);
@@ -94,13 +95,15 @@
                 localStorage.setItem("word",word_of_today);
               }*/
               myWin="ok";
-              $.post("/isWin", myWin);
+              console.log(`win : ${myWin}`);
+              $.post("/isWin", "myWin=1");
             }
             else{
                 alert("Ce n'est pas le bon mot");
                 $("#response").val('');
                 myWin="pasok";
-                $.post("/isWin", myWin);
+                console.log(`pas win: ${myWin}`);
+                $.post("/isWin", "myWin=0");
                 /*new_nb_tries_today = parseInt(nb_tries_today)+1;
                 localStorage.setItem('nbTriesToday', new_nb_tries_today);*/
             }
