@@ -9,16 +9,24 @@ const port = process.env.PORT || 3000
 const words = readFileSync('data/liste_francais_utf8.txt', 'utf-8').toString().split('\r\n')
 var current_number = 127;
 var date = new Date();
-app.use(express.static('www'));
 
 
-//app.use((req,res,next)=>{
-  // console.log(req.path)
-   //next()
-// })
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+
+var user = "Mike O'Serviss";
+var password = "azerty";
+
+app.use((req,res,next)=>{
+  res.setHeader("Access-Control-Allow-Origin",'*') 
+  next()
+ })
+
+ app.use(express.static('www'));
+app.get('/isWin', (req, res) => {
+  isWin = req.myWin;
+  console.log(isWin);
+  res.send(isWin);
 })
+
 app.get('/word', (req, res) => {
   var current_day = date.getDate()
   if(current_day != readFileSync('actuel.txt', 'utf-8').split('\n')[1]){

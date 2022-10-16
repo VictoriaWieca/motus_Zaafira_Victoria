@@ -43,14 +43,52 @@
 
 
     <script>
+        isWin=0;
+        if(localStorage.getItem("myScore")===null){
+            localStorage.setItem("myScore", 0);
+        }
+        if(localStorage.getItem("nbTriesArray")===null){
+            localStorage.setItem("nbTriesArray", JSON.stringify([]));
+        }
+        if(localStorage.getItem("nbTriesToday")===null){
+            localStorage.setItem("nbTriesToday", 0);
+        }
+        $.get("http://localhost:3000/isWin", function(data) {
+            isWin = parseInt(data);
+            nbTriesArray = JSON.parse(localStorage.getItem("nbTriesArray"));
+            nb_tries_today = localStorage.getItem("nbTriesToday");
+            new_nb_tries_today=0;
+            score = localStorage.getItem('myScore');
+
+            if(isWin == 1){
+            new_nb_tries_today = parseInt(nb_tries_today)+1;
+            nbTriesArray.push(new_nb_tries_today);
+            localStorage.setItem("nbTriesArray", JSON.stringify(nbTriesArray));
+            localStorage.setItem('nbTriesToday', 0);
+
+            //if(localStorage.getItem("word")!=word_of_today){
+                newScore = parseInt(score)+1;
+                localStorage.setItem('myScore', newScore);
+            //}
+            }
+
+            else{
+            new_nb_tries_today = parseInt(nb_tries_today)+1;
+            localStorage.setItem('nbTriesToday', new_nb_tries_today);
+            }
+        });
         //storing array in localStorage
         function ArrayAvg(myArray) {
+        if (myArray==null){
+            return 0;
+        }
           var i = 0, summ = 0, ArrayLen = myArray.length;
           while (i < ArrayLen) {
               summ = summ + myArray[i++];
           }
           return summ / ArrayLen;
         }
+        
 
         // Read data
         myScore = localStorage.getItem('myScore');
