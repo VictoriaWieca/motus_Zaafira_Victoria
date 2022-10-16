@@ -27,7 +27,7 @@
     <form id="'proposition'">
       <label for="fname">Your guess :</label><br>
       <input type="text" id="response" name="response" value=""><br>
-      <input type="submit" id="submit" value="Submit" onClick="compare()">
+      <input type="button" id="submit_proposition" value="Valider" onClick="compare()">
     </form>
   
     <div id="table_motus"></div>
@@ -65,9 +65,7 @@
         });
 
 
-        document.getElementById("submit").addEventListener("click", function(event){
-            event.preventDefault()
-        });
+        
         function build(mot){
           number_of_letters = mot.length;
 
