@@ -7,7 +7,7 @@
           th,
           td {
               padding: 10px;
-              border: 1px solid black;
+              border: 1px solid white;
               border-collapse: collapse;
           }
       </style>
@@ -24,15 +24,23 @@
     <a href="http://localhost:3001/score">Score</a>
 
     <h2> Player : <span id="myName"></span> </h2>
-    <form id="'proposition'">
+    <form id="proposition">
       <label for="fname">Your guess :</label><br>
       <input type="text" id="response" name="response" value=""><br>
-      <input type="button" id="submit_proposition" value="Valider" onClick="compare()">
+      <input type="submit" id="submit" value="Valider" >
     </form>
   
     <div id="table_motus"></div>
 
+    <button  id='play-again' style="visibility: hidden;" onclick="playAgain()">Play again</button>
+
     <script>
+        function playAgain(){
+
+          $("#response").val('');
+          window.location.reload();
+        }
+
         if(localStorage.getItem("name")===null){
           window.location = "/login.html"; 
         }
@@ -43,28 +51,22 @@
         var myWin="ok";
         console.log(`debut : ${myWin}`);
 
-        if(localStorage.getItem("myScore")===null){
-          localStorage.setItem("myScore", 0);
-        }
-        if(localStorage.getItem("nbTriesArray")===null){
-          localStorage.setItem("nbTriesArray", JSON.stringify([]));
-        }
-        if(localStorage.getItem("nbTriesToday")===null){
-          localStorage.setItem("nbTriesToday", 0);
-        }
-        if(localStorage.getItem("word")===null){
-          localStorage.setItem("word", "");
-        }
+        
 
         word_of_today = "";
         number_of_letters = 0;
+        nbEssai=0;
         $.get("/word", function( data ) {
           word_of_today = data.trim();
           number_of_letters = word_of_today.length;
           addTable(number_of_letters);
+          $("#response").attr("maxlength",word_of_today.length)
+          $("#response").attr("minlength",word_of_today.length)
+          $("form").on("submit", function (e) {
+            e.preventDefault();
+            compare()
+        }); 
         });
-
-
         
         function build(mot){
           number_of_letters = mot.length;
@@ -73,43 +75,72 @@
         }
 
         function compare(){
-            /*nbTriesArray = JSON.parse(localStorage.getItem("nbTriesArray"));
-            nb_tries_today = localStorage.getItem("nbTriesToday");
-            new_nb_tries_today=0;*/
-            answer = $("#response").val();
-            console.log(answer+"-"+word_of_today)
-            //modification du score
-            //score = localStorage.getItem('myScore');
+          answer = $("#response").val();
+          $.post("/answers", answer);
+          console.log(answer+"-"+word_of_today);
 
+          if(answer.length!=word_of_today.length){
+            alert(`Le mot doit avoir ${word_of_today.length} lettres`)
+          }
+          else{
             if(answer== word_of_today){
               alert(`Le mot du jour est bien ${word_of_today}`);
-              /*new_nb_tries_today = parseInt(nb_tries_today)+1;
-              nbTriesArray.push(new_nb_tries_today);
-              localStorage.setItem("nbTriesArray", JSON.stringify(nbTriesArray));
-              localStorage.setItem('nbTriesToday', 0);
-              if(localStorage.getItem("word")!=word_of_today){
-                newScore = parseInt(score)+1;
-                localStorage.setItem('myScore', newScore);
-                localStorage.setItem("word",word_of_today);
-              }*/
               myWin="ok";
               console.log(`win : ${myWin}`);
               $.post("/isWin", "myWin=1");
+              document.getElementById('play-again').style.visibility = 'visible';
+
+              document.getElementById('proposition').style.visibility = 'hidden';
             }
             else{
-                alert("Ce n'est pas le bon mot");
                 $("#response").val('');
                 myWin="pasok";
                 console.log(`pas win: ${myWin}`);
                 $.post("/isWin", "myWin=0");
-                /*new_nb_tries_today = parseInt(nb_tries_today)+1;
-                localStorage.setItem('nbTriesToday', new_nb_tries_today);*/
             }
-            /*console.log("word of today ", word_of_today);
-            console.log("Array nb of trials : ", nbTriesArray);
-            console.log("Nb of tries today :", new_nb_tries_today);
-            */return false;
+          
+            if(nbEssai>=10){
+              alert(`Vous avez PERDU `);
+              $("#response").val('')
+              window.location.reload();
+            }
+            else{
+              fillTable(answer,nbEssai);
+              nbEssai=nbEssai+1;
+            }
+          }
+          return false;
+        
         }
+
+        function fillTable(answer,i){
+          var arrayLignes = document.getElementById("myTable").rows; //on récupère les lignes du tableau
+          var longueur = arrayLignes.length;
+          answer_array = answer.toUpperCase().trim();
+          console.log(answer_array);
+          word_of_today_array = word_of_today.toUpperCase().trim();
+
+              var arrayColonnes = arrayLignes[i].cells;//on récupère les cellules de la ligne
+              var largeur = arrayColonnes.length;
+              for(var j=0; j<largeur; j++){
+                arrayColonnes[j].innerHTML = answer_array[j];
+                if(answer_array[j] == word_of_today_array[j]){
+                  arrayColonnes[j].style.backgroundColor = "green";
+                }else if(word_of_today_array.includes(answer_array[j])){
+                  arrayColonnes[j].style.backgroundColor = "orange";
+                }else{
+                  arrayColonnes[j].style.backgroundColor = "blue";
+                }
+              }
+            
+        }
+
+        /*$(document).keypress(function(e) {
+            if(e.which == 13) {
+                e.preventDefault();
+                compare();
+            }
+        });*/
 
         function logOut(){
           localStorage.removeItem("name");
@@ -123,6 +154,7 @@
         function addTable(nbLetters) {
           var myTableDiv = document.getElementById("table_motus");
           var table = document.createElement('TABLE');
+          table.setAttribute('id', 'myTable')
           table.border = '1';
           var tableBody = document.createElement('TBODY');
           table.appendChild(tableBody);

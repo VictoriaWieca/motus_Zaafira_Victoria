@@ -53,12 +53,13 @@
         if(localStorage.getItem("nbTriesToday")===null){
             localStorage.setItem("nbTriesToday", 0);
         }
-        $.get("http://localhost:3000/isWin", function(data) {
+        $.get("http://localhost:3000/isWin", function(data) { //ceci devrait être dans le serveur regarder comment faire 
             isWin=parseInt(data);
             nbTriesArray = JSON.parse(localStorage.getItem("nbTriesArray"));
             nb_tries_today = localStorage.getItem("nbTriesToday");
             new_nb_tries_today=0;
             score = localStorage.getItem('myScore');
+            newScore=score;
 
             if(isWin == 1){
                 new_nb_tries_today = parseInt(nb_tries_today)+1;
@@ -67,8 +68,8 @@
                 localStorage.setItem('nbTriesToday', 0);
 
                 //if(localStorage.getItem("word")!=word_of_today){
-                    newScore = parseInt(score)+1;
-                    localStorage.setItem('myScore', newScore);
+                newScore = parseInt(score)+1;
+                localStorage.setItem('myScore', newScore);
                 //}
             }
 
@@ -76,6 +77,12 @@
             new_nb_tries_today = parseInt(nb_tries_today)+1;
             localStorage.setItem('nbTriesToday', new_nb_tries_today);
             }
+            console.log(newScore);
+            myScore = localStorage.getItem('myScore');
+            if (myScore=='')
+                $("#myScore").html(0);
+            else
+                $("#myScore").html(myScore);
         });
         //storing array in localStorage
         function ArrayAvg(myArray) {
@@ -91,11 +98,7 @@
         
 
         // Read data
-        myScore = localStorage.getItem('myScore');
-        if (myScore=='')
-            $("#myScore").html(0);
-        else
-            $("#myScore").html(myScore);
+       
 
 
         // Read data

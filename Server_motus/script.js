@@ -4,7 +4,7 @@ const os = require('os');
 const express = require('express')
 const app = express()
 var bodyParser = require('body-parser')
-const { auth } = require('express-openid-connect');
+//const { auth } = require('express-openid-connect');
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -14,7 +14,8 @@ const words = readFileSync('data/liste_francais_utf8.txt', 'utf-8').toString().s
 var current_number = readFileSync('actuel.txt', 'utf-8').split('\n')[0];
 //console.log(`current number : ${current_number}`)
 var date = new Date();
-
+answers_array = [];
+/*
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 const session = require('express-session')
 app.set('trust proxy', 1) // trust first proxy
@@ -30,7 +31,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
-
+*/
 var user = "Mike O'Serviss";
 var password = "azerty";
 
@@ -39,7 +40,7 @@ app.use((req,res,next)=>{
   next()
  })
 
-
+/*
 app.use((req,res,next)=>{
   if(req.session.user){
     next()
@@ -52,7 +53,7 @@ app.use(auth({
   secret: "secure",
   authRequired: false,
 }));
-
+*/
 
 app.use(express.static('www'));
 
@@ -64,6 +65,16 @@ app.post('/isWin', (req, res) => {
 app.get('/isWin', (req,res) => {
   console.log(`test ${theWin.myWin}`);
   res.send(theWin.myWin);
+})
+
+app.post('/answers', (req, res) => {
+  new_answer = req.body;
+  console.log(new_answer);
+  res.send(new_answer);
+})
+app.get('/answers', (req,res) => {
+  console.log(`test ${new_answer.answer}`);
+  res.send(new_answer.answer);
 })
 
 app.get('/word', (req, res) => {
