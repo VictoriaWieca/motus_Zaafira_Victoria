@@ -1,35 +1,20 @@
 <!DOCTYPE html>
 <html>
+    <meta charset="UTF-8"> 
 <body>
     <script src="https://code.jquery.com/jquery-3.6.1.js" 
       integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
       crossorigin="anonymous">
     </script>
-    <form id="login">
+    <form id="login" action="http://localhost:3000/session" method="POST">
         <label for="fname">Please login</label><br>
-        <input type="text" id="myLogin" name="login" value=""><br>
+        <input type="text" id="myLogin" name="myLogin" value=""><br>
+        <input type="password" id="myPass" name="myPass" value=""><br>
         <input type="Submit" id="submit_login" value="Submit">
     </form><br><br>
     <span id="myNames"></span>
     <a href="http://localhost:3000/index.html">Back to Motus</a>
 
-    <script>
-        function setLogin(){
-            login = $("#myLogin").val();
-            localStorage.setItem("name", login);
-            console.log(login);
-            $("#myNames").html(login);
-            document.location = "/index.html"; 
-        }
-
-        //permet de récuperer l'appui sur entrée pour éviter un submit (le submit empêche la redirection dans la fct setLogin())
-        $(document).keypress(function(e) {
-            if(e.which == 13) {
-                e.preventDefault();
-                setLogin();
-            }
-        });
-
-    </script>
+   
 </body>
 </html>

@@ -4,7 +4,6 @@ var http = require('http');
 
 const express = require('express')
 const app = express()
-const { auth } = require('express-openid-connect');
 
 
 var bodyParser = require('body-parser')
@@ -18,39 +17,21 @@ app.use((req,res,next)=>{
   next()
  })
 
-const session = require('express-session')
-app.use(session({
-  secret: 'JN5iLfHJ3Zzze1LB8eTDXSomyvzivzGBE6PAXMXPHfGLcWaFPsfr9D7yuWZcoGT7',
-  name: 'gYAseySuNbKfNyPWySZA02FSthdZCpyB',
-  resave: true,
-  saveUninitialized: true
-}));
+
 
 
 app.use(express.static('www'));
 
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  baseURL: 'http://localhost:5000/',
-  clientID: 'gYAseySuNbKfNyPWySZA02FSthdZCpyB',
-  issuerBaseURL: 'https://dev-sqarahhvhxa0rob7.us.auth0.com',
-  secret: 'JN5iLfHJ3Zzze1LB8eTDXSomyvzivzGBE6PAXMXPHfGLcWaFPsfr9D7yuWZcoGT7'
-};
-
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
-
-// req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
 });
 
+app.get('/login', (req, res) => res.oidc.login({ returnTo: '/authorize' }));
 
-/*app.get('/authorize', (req, res, next) => {
-  passport.authenticate('oidc', { acr_values: 'urn:grn:authn:fi:all' })(req, res, next);
-});*/
+
+app.get('/authorize', (req, res) => {
+  res.redirect("login.html");
+});
 
 
 app.get('/port', (req, res) => {

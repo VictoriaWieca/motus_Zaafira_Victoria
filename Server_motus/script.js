@@ -4,6 +4,8 @@ const os = require('os');
 const express = require('express')
 const app = express()
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -14,26 +16,39 @@ var current_number = readFileSync('actuel.txt', 'utf-8').split('\n')[0];
 //console.log(`current number : ${current_number}`)
 var date = new Date();
 
-var user = "Mike O'Serviss";
-var password = "azerty";
-
 app.use((req,res,next)=>{
   res.setHeader("Access-Control-Allow-Origin",'*') 
   next()
  })
 
+var session = require('express-session')
+app.use(session({
+  name: 'session',
+  secret: 'test',
+  cookie: {
+    httpOnly: true,
+  },
+  resave: true,
+  saveUninitialized: true
+}));
 /*
 app.use((req,res,next)=>{
   if(req.session.user){
-    next()
+    // token = jwt with user
+    next(); //token="+token);
   }else{
-    res.redirect("www/login.html")
+    res.redirect("http://localhost:5000/login.html")
   }
-}) 
-*/
+});*/
+
+// cookie parser middleware
+app.use(cookieParser());
 
 app.use(express.static('www'));
 
+
+var user = "Mike O'Serviss";
+var password = "azerty";
 
 app.get('/word', (req, res) => {
   var current_day = date.getDate()
@@ -50,9 +65,21 @@ app.get('/port', (req, res) => {
 
 app.get('/session', (req, res) => {
     res.setHeader('Content-Type', 'text/html')
-    res.write('<p>Session expires : ' + req.session.cookie.expires + '</p>')
-    res.send(`hello ${req.oidc.user.sub}`);
-    res.end()
+    res.send(req.session.user)
+})
+
+app.post('/session', (req, res) =>{
+  console.log(req.body.myLogin);
+  if(req.body.myLogin == user && req.body.myPass == password){
+    req.session.user=req.body.myLogin;
+    req.session.loggedin = true;
+    console.log(req.body.myLogin);
+    res.redirect('/index.html');
+  }
+  else{
+    res.redirect('http://localhost:5000/login.html#invalid');
+    console.log('Invalid username or password');
+}
 })
 app.listen(port, () => {
   console.log(`Motus app listening on port ${port}`)

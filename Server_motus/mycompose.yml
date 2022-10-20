@@ -1,7 +1,8 @@
 services:
 
-  :
-    image: mynode
+  motus:
+    build: ./Server_motus/
+    image: mymotus
     restart: always
     ports:
       - 3000:3000

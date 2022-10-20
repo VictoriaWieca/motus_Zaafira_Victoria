@@ -41,17 +41,22 @@
           window.location.reload();
         }
 
-        if(localStorage.getItem("name")===null){
+       /* if(localStorage.getItem("name")===null){
           window.location = "http://localhost:5000/login.html"; 
         }
         pseudo = localStorage.getItem("name");
-        $("#myName").html(pseudo);
+        $("#myName").html(pseudo);*/
         
 
         var myWin="ok";
         console.log(`debut : ${myWin}`);
 
-        
+        $.get("/session", function( data ) {
+          if(data===''){
+            window.location = "http://localhost:5000/login.html"; 
+          }
+          $("#myName").html(data);
+        })
 
         word_of_today = "";
         number_of_letters = 0;
