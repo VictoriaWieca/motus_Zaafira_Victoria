@@ -14,7 +14,6 @@ const words = readFileSync('data/liste_francais_utf8.txt', 'utf-8').toString().s
 var current_number = readFileSync('actuel.txt', 'utf-8').split('\n')[0];
 //console.log(`current number : ${current_number}`)
 var date = new Date();
-answers_array = [];
 /*
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
 const session = require('express-session')
@@ -57,7 +56,7 @@ app.use(auth({
 
 app.use(express.static('www'));
 
-app.post('/isWin', (req, res) => {
+/*app.post('/isWin', (req, res) => {
   theWin = req.body;
   console.log(theWin);
   res.send(theWin);
@@ -65,17 +64,7 @@ app.post('/isWin', (req, res) => {
 app.get('/isWin', (req,res) => {
   console.log(`test ${theWin.myWin}`);
   res.send(theWin.myWin);
-})
-
-app.post('/answers', (req, res) => {
-  new_answer = req.body;
-  console.log(new_answer);
-  res.send(new_answer);
-})
-app.get('/answers', (req,res) => {
-  console.log(`test ${new_answer.answer}`);
-  res.send(new_answer.answer);
-})
+})*/
 
 app.get('/word', (req, res) => {
   var current_day = date.getDate()

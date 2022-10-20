@@ -21,7 +21,7 @@
 
     <button onClick="logOut()">Log Out</button>
 
-    <a href="http://localhost:3001/score">Score</a>
+    <a href="http://localhost:3001/score.html">Score</a>
 
     <h2> Player : <span id="myName"></span> </h2>
     <form id="proposition">
@@ -76,7 +76,6 @@
 
         function compare(){
           answer = $("#response").val();
-          $.post("/answers", answer);
           console.log(answer+"-"+word_of_today);
 
           if(answer.length!=word_of_today.length){
@@ -87,7 +86,7 @@
               alert(`Le mot du jour est bien ${word_of_today}`);
               myWin="ok";
               console.log(`win : ${myWin}`);
-              $.post("/isWin", "myWin=1");
+              $.post("http://localhost:3001/score", "myWin=1");
               document.getElementById('play-again').style.visibility = 'visible';
 
               document.getElementById('proposition').style.visibility = 'hidden';
@@ -96,7 +95,7 @@
                 $("#response").val('');
                 myWin="pasok";
                 console.log(`pas win: ${myWin}`);
-                $.post("/isWin", "myWin=0");
+                $.post("http://localhost:3001/score", "myWin=0");
             }
           
             if(nbEssai>=10){
