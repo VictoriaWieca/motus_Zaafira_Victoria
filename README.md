@@ -23,7 +23,6 @@ Puis aller sur http://localhost:3000
 
 ```mermaid
 sequenceDiagram
-    sequenceDiagram
     Client->>+Server_auth: /
     Server_auth->>Client: login.html
     note right of Client : if user is not connected
