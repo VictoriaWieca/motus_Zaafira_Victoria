@@ -19,7 +19,7 @@
       crossorigin="anonymous">
     </script>
 
-    <button onClick="logOut()">Log Out</button>
+    <button id="logout">Log Out</button>
 
     <a href="http://localhost:3001/score.html">Score</a>
 
@@ -48,19 +48,36 @@
         $("#myName").html(pseudo);*/
         
 
-        var myWin="ok";
+        var myWin=0;
+        var name= "";
+        var isConnected = 0;
         console.log(`debut : ${myWin}`);
 
         $.get("/session", function( data ) {
-          if(data===''){
+          $(document).ready(function(){
+              $("#logout").on("click",function(e){
+                console.log("test logout")
+                e.preventDefault();
+                isConnected=0;
+                window.location="/logOut";
+                $.post("http://localhost:5000/logged", {connected:0})
+              }); 
+            })
+          if(data==='' || data===null){
+            isConnected=0;
+            $.post("http://localhost:5000/logged", {connected:isConnected})
             window.location = "http://localhost:5000/login.html"; 
+          }else{
+            isConnected=1;
+            $.post("http://localhost:5000/logged", {connected:isConnected})
+            $("#myName").html(data);
           }
-          $("#myName").html(data);
         })
 
         word_of_today = "";
         number_of_letters = 0;
         nbEssai=0;
+
         $.get("/word", function( data ) {
           word_of_today = data.trim();
           number_of_letters = word_of_today.length;
@@ -91,7 +108,7 @@
               alert(`Le mot du jour est bien ${word_of_today}`);
               myWin="ok";
               console.log(`win : ${myWin}`);
-              $.post("http://localhost:3001/score", "myWin=1");
+              $.post("http://localhost:3001/score", {myWin:1, name:name});
               document.getElementById('play-again').style.visibility = 'visible';
 
               document.getElementById('proposition').style.visibility = 'hidden';
@@ -100,7 +117,7 @@
                 $("#response").val('');
                 myWin="pasok";
                 console.log(`pas win: ${myWin}`);
-                $.post("http://localhost:3001/score", "myWin=0");
+                $.post("http://localhost:3001/score", {myWin:0, name:name});
             }
           
             if(nbEssai>=10){
@@ -146,15 +163,9 @@
             }
         });*/
 
-        function logOut(){
-          localStorage.removeItem("name");
-          window.location.reload();
-          //document.location = "/login.html"; 
-        }
-
         $("#response").focus()
           
-             
+        
         function addTable(nbLetters) {
           var myTableDiv = document.getElementById("table_motus");
           var table = document.createElement('TABLE');

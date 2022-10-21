@@ -17,9 +17,12 @@ var current_number = readFileSync('actuel.txt', 'utf-8').split('\n')[0];
 var date = new Date();
 
 app.use((req,res,next)=>{
-  res.setHeader("Access-Control-Allow-Origin",'*') 
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Content-Type, Authorization"); 
   next()
- })
+  })
 
 var session = require('express-session')
 app.use(session({
@@ -46,10 +49,6 @@ app.use(cookieParser());
 
 app.use(express.static('www'));
 
-
-var user = "Mike O'Serviss";
-var password = "azerty";
-
 app.get('/word', (req, res) => {
   var current_day = date.getDate()
   if(current_day != readFileSync('actuel.txt', 'utf-8').split('\n')[1]){
@@ -64,23 +63,50 @@ app.get('/port', (req, res) => {
 })
 
 app.get('/session', (req, res) => {
-    res.setHeader('Content-Type', 'text/html')
-    res.send(req.session.user)
+  res.setHeader('Content-Type', 'text/html')
+  res.send(req.session.user);
 })
 
-app.post('/session', (req, res) =>{
-  console.log(req.body.myLogin);
-  if(req.body.myLogin == user && req.body.myPass == password){
-    req.session.user=req.body.myLogin;
+app.get('/callback', (req, res) => {
+  const token = req.query.token;
+  const pseudo = req.query.login;
+  console.log(`token : ${token}`);
+  if(token!=''){
+    req.session.user=pseudo;
     req.session.loggedin = true;
-    console.log(req.body.myLogin);
-    res.redirect('/index.html');
+    console.log(`mylogin : ${req.session.user}`);
+    var redirect_uri="http://localhost:3000/index.html"
+    res.redirect('http://localhost:5000/authorize?redirect_uri='+redirect_uri);
   }
   else{
     res.redirect('http://localhost:5000/login.html#invalid');
     console.log('Invalid username or password');
-}
+  }
 })
+
+app.get('/logout',(req,res) => {
+  req.session.destroy();
+  res.redirect('http://localhost:3000/index.html');
+});
+
+/*app.post('/callback', (req, res) =>{
+  console.log(`mylogin : ${req.body.log}`);
+  const code = req.query.code;
+  const pseudo = req.query.login;
+  console.log(`code : ${code}`);
+  //if(code!=''){
+    req.session.user=pseudo;
+    req.session.loggedin = true;
+    console.log(`mylogin : ${req.session.user}`);
+    //var redirect_uri='http://localhost:3000/index.html'
+    //res.redirect('http://localhost:5000/authorize?redirect_uri='+redirect_uri);
+  }
+  else{
+    res.redirect('http://localhost:5000/login.html#invalid');
+    console.log('Invalid username or password');
+  }
+})*/
+
 app.listen(port, () => {
   console.log(`Motus app listening on port ${port}`)
 })

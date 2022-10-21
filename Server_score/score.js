@@ -10,22 +10,27 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 const port = process.env.PORT || 3001
 
-app.use((req,res,next)=>{
-  res.setHeader("Access-Control-Allow-Origin",'*') 
-  next()
- })
-
 
 app.use(express.static('www'));
 
-
+app.use((req,res,next)=>{
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Content-Type, Authorization");
+  next()
+  })
 
 app.get('/', (req, res) => {
   res.send('hello');
 })
 
 app.post('/score', (req, res) => {
-  theWin = req.body;
+  theWin = req.body.myWin;
+  pseudo = req.body.name;
+
+  console.log(theWin);
+  console.log(pseudo);
 
   var score = readFileSync('data/score.txt', 'utf-8').toString().split('\n');
   var nbTries = readFileSync('data/nbTriesTotal.txt', 'utf-8').toString().split('\n');

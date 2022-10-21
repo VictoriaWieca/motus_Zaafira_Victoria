@@ -6,15 +6,39 @@
       integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
       crossorigin="anonymous">
     </script>
-    <form id="login" action="http://localhost:3000/session" method="POST">
+    <form id="login" action="http://localhost:5000/authorize" method="POST">
         <label for="fname">Please login</label><br>
         <input type="text" id="myLogin" name="myLogin" value=""><br>
         <input type="password" id="myPass" name="myPass" value=""><br>
         <input type="Submit" id="submit_login" value="Submit">
     </form><br><br>
-    <span id="myNames"></span>
+    <span  id='connected' style="visibility: hidden;">Vous êtes déjà connecté</span>
     <a href="http://localhost:3000/index.html">Back to Motus</a>
 
-   
+    <script>
+        $.get("/logged", function( data ) {
+            if(parseInt(data)==1){
+                document.getElementById('login').style.visibility = 'hidden';
+                document.getElementById('connected').style.visibility = 'visible';
+            }
+            else{
+                document.getElementById('login').style.visibility = 'visible';
+                document.getElementById('connected').style.visibility = 'hidden';
+            }
+        })
+        
+        /*function sendSession(){
+            login = $("#myLogin").val();
+            $.post("http://localhost:3000/callback", {log:login});
+        }
+
+        //permet de récuperer l'appui sur entrée pour faire le submit mais aussi le sendSession()
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+                sendSession();
+            }
+        });*/
+
+    </script>
 </body>
 </html>
