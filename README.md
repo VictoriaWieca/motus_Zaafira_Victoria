@@ -5,45 +5,68 @@
 
 ## Comment exécuter :
 ```
-npm install
-node script.js
+docker-compose -f composeMotus.yml up
 ```
-Puis aller sur http://localhost:3000
+Puis aller sur http://localhost:5000
+  
+Entrer les identifiants suivants :      
+    - pseudo : MikeOServiss   
+    - mot de passe : azerty
 
 
 ## Fonctonnalités implémentées :
 
-- Si c'est un nouveau joueur, il doit entrer un pseudo (login) pour jouer. Pour retourner à la page principale, il faut cliquer sur le lien *Back to Motus*. Le pseudo y sera affiché.
-- Le joueur doit deviner le mot du jour en dans la barre de réponse. Le nombre d'essai n'est pas limité.
-- Si le mot n'est pas bon, une pop-up apparaît avec le message 'Le mot n'est pas bon'.
+- Si c'est le joueur n'est pas connecté, il doit entrer un pseudo et un mot de passe pour jouer. Un token lui est envoyé par le server *_auth* et renvoyé au server *_motus* si les identifiants sont corrects. Le serveur *_motus* redirige le joueur vers la page *localhost:3000/index.html* pour jouer.
+- Le joueur doit deviner le mot du jour en entrant un mot dans la barre de réponse. Le nombre d'essai est limité à 10.
+- Chaque essai est affiché dans un tableau avec les lettres trouvées dans la bonne place en vert, celles inclues dans le mot mais pas à la bonne place en orange, et le reste en bleu.
 - Si le mot est bon, une pop-up affiche que le mot est correct.
-- En cliquant sur le lien *Score*, une page s'ouvre avec le score total du joueur ainsi que le nombre d'essai moyen pour chaque mot
+- A chaque essai, un booléen est envoyé au server *_score* pour modifier ou non le score du joueur et stocker le nombre d'essai(s).
+- En cliquant sur le lien *Score*, une page s'ouvre avec le score total du joueur ainsi que le nombre d'essai moyen.
+- Le joueur peut se déconnecter en cliquant sur *Logout*. En se déconectant, les données de son score sont stockées dans des fichiers.
 
 ## Diagramme de séquence :
 
 ```mermaid
 sequenceDiagram
-    Client->>+Server: /
-    Server->>Client: index.html
-    note right of Client : if local storage item "name" does not exist
-    Client->>Server: /login.html
-    Server->>Client: login.html
-    note right of Client : set login in local storage
-    Client->>Server: /index.html
-    Server->>Client: index.html
-    Client->>Server: /word
-    Server->>Client: word_of_today
+    Client->>+Server_auth: /
+    Server_auth->>Client: login.html
+    note right of Client : if user is not connected
+    Client->>Server_auth: login & password
+    Server_auth->>Client: token
+    note right of Client : if login & password correct
+    Client->>Server_motus: /callback?token=XXXX
+    Server_motus->>Client: redirect_uri
+    Client->>Server_auth: /authorize?redirect_uri=localhost:3000/index.html
+    Server_auth->>Client: localhost:3000/index.html
+    Server_motus->>Server_motus: /session
+    note right of Server_motus: store login in session
+    Server_motus->>Server_motus: generate a new word if the date in file 'actuel.txt' is not the actual date
+    Client->>Server_motus: /word
+    Server_motus->>Client: word of today
     Client->>Client: Guessing 
-    Client->>Server: boolean guess (if the player failed or succeeded to find the word)
-    Server->>Server2: /score and send if the player guessed the word or not 
-    Server2->>Server: score.html and database with score and average tries
-    Server->>Client: score.html and database with score and average tries
-    Client->>Client: display score from database
+    Client->>Server_score: boolean guess (if the player failed or succeeded to find the word)
+    Server_score->>Server_score: Calculation
+    Server_score->>Client: score.html
+    Client->>Server_motus: /logout
+    Server_motus->>Client: destroy session & redirect to localhost:5000/login.html
+
+
+
+            
 ```
 
-## API Score
-- we use a second node server which uses the port 3001 
-- we call the API /score which takes as parameter the result of the submit of the player (true or false)
-- we do not have a database yet, so we cannot handle more than one user (we use local storage)
-- we want to store : login, password, the scores and average number of tries of each player
+## A améliorer
+
+- Nous n'avons qu'un seul joueur enregistré. Il faudrait regrouper les données de nos fichiers afin de pouvoir enregistrer plusieurs joueurs.
+- Il n'y a pas de formulaire d'inscription pour créer un nouveau joueur.
+- L'authentification n'est vérifiée qu'avec le serveur *_motus* ce qui fait qu'on peut accéder au server *_score* sans être connecté.
+- Il s'agit d'une authentification simplifiée car il n'y a pas de communication entre les server *_motus* et *_auth* pour vérifier le token reçu.
+- La partie monitoring n'a pas été implémentée
+
+
+
+
+
+
+
 
