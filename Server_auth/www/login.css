@@ -1,9 +1,7 @@
 #login-body {
-    position: relative;
-    
-    top: 70%;
-    transform: translate(-5%, 35%);
-    padding: 10px;
+    display: flex;
+    margin-top: 10%;
+    flex-direction: column;
     text-align: center;
 }
 h2{
@@ -11,7 +9,7 @@ h2{
 }
 input{
     height: 30px;
-    width: 15%;
+    min-width: 15%;
     background-color: white;
     border-radius: 5px;
 }
