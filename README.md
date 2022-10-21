@@ -10,7 +10,7 @@ docker-compose -f composeMotus.yml up
 Puis aller sur http://localhost:5000
   
 Entrer les identifiants suivants :      
-    - pseudo : MikeOServiss
+    - pseudo : MikeOServiss   
     - mot de passe : azerty
 
 
