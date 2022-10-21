@@ -39,6 +39,7 @@ sequenceDiagram
     Server_auth->>Client: localhost:3000/index.html
     Server_motus->>Server_motus: /session
     note right of Server_motus: store login in session
+    Server_motus->>Server_motus: generate a new word if the date in file 'actuel.txt' is not the actual date
     Client->>Server_motus: /word
     Server_motus->>Client: word of today
     Client->>Client: Guessing 
