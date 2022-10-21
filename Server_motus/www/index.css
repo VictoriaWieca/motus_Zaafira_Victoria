@@ -1,11 +1,128 @@
-header{
-    width: 100%;
+body{
+    background-color: #1e1930;
 }
 
+#contenu{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: center;
+}
+header{
+    display: grid;
+    grid-template-columns: 2fr 6fr 2fr;
+    text-align:center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding-bottom:1vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+h1{
+    margin:0;
+    color:white;
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+    font-size: min(7vw,50px);
+}
+    
 #motus-body {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#player{
+    align-items: center;
+    text-align:center;
+    color: white;
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+}
+
+#proposition{
+    align-items: center;
+    text-align:center;
+    color: white;
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+    margin-bottom: -20px;
+}
+
+span{
+    background: -webkit-linear-gradient(#C43BA5, #9F3BC4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#response{
+    margin-top:20px;
+}
+
+#submit{
+    margin-top:20px;
+}
+
+#submit{
+    margin-bottom:20px;
+    border-radius:15px;
+    font-size: medium;
+    background-image: linear-gradient(#C43BA5, #9F3BC4);
+    color: white;
+    height: 40px;
+    font-weight: 900;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+}
+
+#myTable{
+    background-color: #1e1930;
+    border:0;
+    border-spacing:5px;
+    min-height: calc(6 * 50px + 12 * 2px);
+}
+
+tr{
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-collapse: collapse;
+}
+
+td{
+    width: calc(50px - 2 * 2px);
+    height: calc(50px - 2 * 2px);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-collapse: collapse;
+    text-align: center;
+}
+
+button{
+    font-size: medium;
+    background-image: linear-gradient(#C43BA5, #9F3BC4);
+    padding: 0;
+    border-radius:15px;
+    color: white;
+    height: 40px;
+    font-weight: 900;
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+}
+
+#le_score{
+    font-size: medium;
+    background-image: linear-gradient(#C43BA5, #9F3BC4);
+    padding: 0;
+    border-radius:15px;
+    color: white;
+    height: 40px;
+    font-weight: 900;
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+}
+
+#play-again{
+    position: relative;
+    top: -100px;
+    text-align:center;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom: -20px;
 }

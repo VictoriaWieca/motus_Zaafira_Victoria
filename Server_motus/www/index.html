@@ -3,46 +3,44 @@
   <head>
     <meta charset="UTF-8"> 
     <link rel="stylesheet" href="index.css">
-      <style>
-          table,
-          th,
-          td {
-              padding: 10px;
-              border: 1px solid white;
-              border-collapse: collapse;
-          }
-      </style>
+
   </head>
   
-  <header id="header">
-    <table>
-      <td><a href="http://localhost:3001/score.html">Score</a></td>
-      <td><h2>MOTUS</h2></td>
-      <td><button id="logout">Log Out</button></td>
-    </table>
-  </header>
   
-  <body>
+  
+<body>
+  <div id="contenu">
     <script src="https://code.jquery.com/jquery-3.6.1.js" 
-      integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
-      crossorigin="anonymous">
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
+        crossorigin="anonymous">
     </script>
 
+    <header>
+      <input type="button" id="le_score" onclick="location.href='http://localhost:3001/score.html';" value="Score"></input>
+      <h1>MOTUS</h1>
+      <button id="logout">Déconnexion</button>
+    </header>
+    
+
+    <div id="motus-body">
+    
+      <h2 id="player"> Salut <span id="myName"></span> </h2>
+      <form id="proposition">
+        <label for="fname">- Devinez -</label><br>
+        <input type="text" id="response" name="response" value=""><br>
+        <input type="submit" id="submit" value="vérifier" >
+      </form>
+
+      <button  id='play-again' style="visibility: hidden; " onclick="playAgain()">Rejouer</button>
+    
+      <div id="table_motus"></div>
+
+    </div>
+  </div>
 
 
-<div id="motus-body">
-  
-    <h2> Player : <span id="myName"></span> </h2>
-    <form id="proposition">
-      <label for="fname">Your guess :</label><br>
-      <input type="text" id="response" name="response" value=""><br>
-      <input type="submit" id="submit" value="Valider" >
-    </form>
-  
-    <div id="table_motus"></div>
 
-    <button  id='play-again' style="visibility: hidden;" onclick="playAgain()">Play again</button>
-</div>
+
     <script>
         function playAgain(){
 
@@ -155,11 +153,11 @@
               for(var j=0; j<largeur; j++){
                 arrayColonnes[j].innerHTML = answer_array[j];
                 if(answer_array[j] == word_of_today_array[j]){
-                  arrayColonnes[j].style.backgroundColor = "green";
+                  arrayColonnes[j].style.backgroundColor = "#538D4E";
                 }else if(word_of_today_array.includes(answer_array[j])){
-                  arrayColonnes[j].style.backgroundColor = "orange";
+                  arrayColonnes[j].style.backgroundColor = "#B59F3B";
                 }else{
-                  arrayColonnes[j].style.backgroundColor = "blue";
+                  arrayColonnes[j].style.backgroundColor = "#1e1930";
                 }
               }
             
@@ -179,7 +177,6 @@
           var myTableDiv = document.getElementById("table_motus");
           var table = document.createElement('TABLE');
           table.setAttribute('id', 'myTable')
-          table.border = '1';
           var tableBody = document.createElement('TBODY');
           table.appendChild(tableBody);
           for (var i = 0; i < 10; i++) {
@@ -187,9 +184,9 @@
             tableBody.appendChild(tr);
             for (var j = 0; j < nbLetters; j++) {
               var td = document.createElement('TD');
-              td.width = '35';
-              td.height = '35';
-              td.style.backgroundColor = 'blue';
+              td.width = '50';
+              td.height = '50';
+              td.style.backgroundColor = '#1e1930';
               tr.appendChild(td);
             }
           }
