@@ -18,7 +18,7 @@ var date = new Date();
 
 
 //loki
-const loki_uri = process.env.LOKI || "http://127.0.0.1:2100";
+/*const loki_uri = process.env.LOKI || "http://127.0.0.1:2100";
 
 
 const { createLogger, transports } = require("winston");
@@ -32,7 +32,7 @@ const options = {
 };
 
 
-
+*/
 
 
 app.use((req,res,next)=>{
