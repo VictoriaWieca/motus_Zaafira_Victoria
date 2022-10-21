@@ -1,51 +1,33 @@
 const {readFileSync, writeFileSync, appendFile, promises: fsPromises} = require('fs');
 const os = require('os');
 var http = require('http');
-
 const express = require('express')
 const app = express()
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
 const port = process.env.PORT || 3001
-
-
-app.use(express.static('www'));
-
 app.use((req,res,next)=>{
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Origin",'*') 
   next()
-  })
-
+ })
+app.use(express.static('www'));
 app.get('/', (req, res) => {
   res.send('hello');
 })
-
 app.post('/score', (req, res) => {
-  theWin = req.body.myWin;
-  pseudo = req.body.name;
-
-  console.log(theWin);
-  console.log(pseudo);
-
+  theWin = req.body;
   var score = readFileSync('data/score.txt', 'utf-8').toString().split('\n');
   var nbTries = readFileSync('data/nbTriesTotal.txt', 'utf-8').toString().split('\n');
-
   console.log(theWin);isWin=parseInt(theWin.myWin);
   var thescore = score[0];
   console.log(`scoreeee ${thescore}`);
+  console.log(`isWin ${isWin}`);
   var newScore=thescore;
- 
   var nb_tries_today = score[1];
   console.log(`nb tries today ${nb_tries_today}`);
   var new_nb_tries_today=0;
-
   if(isWin == 1){
-    
     new_nb_tries_today = parseInt(nb_tries_today)+1;
     console.log(`new nb tries today ${new_nb_tries_today}`);
     if(nbTries[0]==""){
@@ -57,10 +39,8 @@ app.post('/score', (req, res) => {
     }
     newScore = parseInt(score)+1;
     writeFileSync('data/score.txt', `${newScore}\n${0}`, 'utf-8');
-    
     res.send({new_score: newScore, nb_tries: nbTries});
   }
-
   else{
     console.log("faux");
     new_nb_tries_today = parseInt(nb_tries_today)+1;
@@ -80,7 +60,3 @@ app.get('/port', (req, res) => {
 app.listen(port, () => {
   console.log(`Score app listening on port ${port}`)
 })
-
-
-
-

@@ -13,4 +13,4 @@ RUN npm install express express-session cookie-parser body-parser
 
 COPY . .
 
-CMD [ "node", "script.js" ]
+CMD [ "node", "score.js" ]

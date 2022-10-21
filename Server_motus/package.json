@@ -1,18 +1,17 @@
 {
-  "name": "motus",
+  "name": "server_motus",
   "version": "1.0.0",
   "description": "motus",
-  "main": "index.js",
+  "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "victoria",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.1",
-    "express-openid-connect": "^2.9.0",
     "express-session": "^1.17.3",
     "haproxy": "^0.3.0",
     "morgan": "^1.10.0"

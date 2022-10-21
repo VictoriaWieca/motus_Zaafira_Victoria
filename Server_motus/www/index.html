@@ -108,7 +108,7 @@
               alert(`Le mot du jour est bien ${word_of_today}`);
               myWin="ok";
               console.log(`win : ${myWin}`);
-              $.post("http://localhost:3001/score", {myWin:1, name:name});
+              $.post("http://localhost:3001/score", "myWin=1");
               document.getElementById('play-again').style.visibility = 'visible';
 
               document.getElementById('proposition').style.visibility = 'hidden';
@@ -117,7 +117,7 @@
                 $("#response").val('');
                 myWin="pasok";
                 console.log(`pas win: ${myWin}`);
-                $.post("http://localhost:3001/score", {myWin:0, name:name});
+                $.post("http://localhost:3001/score", "myWin=0");
             }
           
             if(nbEssai>=10){

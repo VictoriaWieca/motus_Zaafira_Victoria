@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  grafana:
+      image: grafana/grafana
+      container_name: grafana
+      ports:
+        - 2000:2000
+      restart: unless-stopped
+      networks:
+        - monitor-net
+  loki:
+    image: grafana/loki
+    container_name: loki
+    ports:
+      - 2100:2100
+    restart: unless-stopped
+    networks:
+      - monitor-net

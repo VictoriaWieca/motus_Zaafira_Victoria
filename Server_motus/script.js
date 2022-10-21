@@ -16,6 +16,25 @@ var current_number = readFileSync('actuel.txt', 'utf-8').split('\n')[0];
 //console.log(`current number : ${current_number}`)
 var date = new Date();
 
+
+//loki
+const loki_uri = process.env.LOKI || "http://127.0.0.1:2100";
+
+
+const { createLogger, transports } = require("winston");
+const LokiTransport = require("winston-loki");
+const options = {
+  transports: [
+    new LokiTransport({
+      host: loki_uri
+    })
+  ]
+};
+
+
+
+
+
 app.use((req,res,next)=>{
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -59,6 +78,7 @@ app.get('/word', (req, res) => {
   res.send(word);
 })
 app.get('/port', (req, res) => {
+  logger.info({ message: 'URL '+req.url , labels: { 'url': req.url, 'user':username } })
   res.send(`MOTUS APP working on ${os.hostname} port ${port}`)
 })
 
@@ -88,24 +108,6 @@ app.get('/logout',(req,res) => {
   req.session.destroy();
   res.redirect('http://localhost:3000/index.html');
 });
-
-/*app.post('/callback', (req, res) =>{
-  console.log(`mylogin : ${req.body.log}`);
-  const code = req.query.code;
-  const pseudo = req.query.login;
-  console.log(`code : ${code}`);
-  //if(code!=''){
-    req.session.user=pseudo;
-    req.session.loggedin = true;
-    console.log(`mylogin : ${req.session.user}`);
-    //var redirect_uri='http://localhost:3000/index.html'
-    //res.redirect('http://localhost:5000/authorize?redirect_uri='+redirect_uri);
-  }
-  else{
-    res.redirect('http://localhost:5000/login.html#invalid');
-    console.log('Invalid username or password');
-  }
-})*/
 
 app.listen(port, () => {
   console.log(`Motus app listening on port ${port}`)

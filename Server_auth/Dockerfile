@@ -9,8 +9,8 @@ COPY ["package.json", "package-lock.json*"]
 
 RUN npm install --production
 
-RUN npm install express express-session cookie-parser body-parser
+RUN npm install express express-session cookie-parser body-parser jsonwebtoken
 
 COPY . .
 
-CMD [ "node", "script.js" ]
+CMD [ "node", "auth.js" ]

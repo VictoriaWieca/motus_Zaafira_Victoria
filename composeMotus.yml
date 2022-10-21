@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+
+  motus:
+    build: ./Server_motus
+    image: mymotus
+    restart: always
+    ports:
+      - 3000:3000
+
+  score:
+    build: ./Server_score
+    image: myscore
+    restart: always
+    ports:
+      - 3001:3001
+
+  auth:
+    build: ./Server_auth
+    image: myauth
+    restart: always
+    ports:
+      - 5000:5000
