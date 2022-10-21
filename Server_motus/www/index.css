@@ -1,0 +1,11 @@
+header{
+    width: 100%;
+}
+
+#motus-body {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+}

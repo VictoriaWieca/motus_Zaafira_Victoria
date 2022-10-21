@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8"> 
+    <link rel="stylesheet" href="index.css">
       <style>
           table,
           th,
@@ -13,16 +14,24 @@
       </style>
   </head>
   
+  <header id="header">
+    <table>
+      <td><a href="http://localhost:3001/score.html">Score</a></td>
+      <td><h2>MOTUS</h2></td>
+      <td><button id="logout">Log Out</button></td>
+    </table>
+  </header>
+  
   <body>
     <script src="https://code.jquery.com/jquery-3.6.1.js" 
       integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
       crossorigin="anonymous">
     </script>
 
-    <button id="logout">Log Out</button>
 
-    <a href="http://localhost:3001/score.html">Score</a>
 
+<div id="motus-body">
+  
     <h2> Player : <span id="myName"></span> </h2>
     <form id="proposition">
       <label for="fname">Your guess :</label><br>
@@ -33,7 +42,7 @@
     <div id="table_motus"></div>
 
     <button  id='play-again' style="visibility: hidden;" onclick="playAgain()">Play again</button>
-
+</div>
     <script>
         function playAgain(){
 
