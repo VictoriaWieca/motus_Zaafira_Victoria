@@ -1,0 +1,35 @@
+#login-body {
+    position: relative;
+    
+    top: 70%;
+    transform: translate(-5%, 35%);
+    padding: 10px;
+    text-align: center;
+}
+h2{
+    color: white;
+}
+input{
+    height: 30px;
+    width: 15%;
+    background-color: white;
+    border-radius: 5px;
+}
+body{
+    font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+    background-color: #1e1930;
+}
+#submit_login{
+    font-size: medium;
+    background-image: linear-gradient(#C43BA5, #9F3BC4);
+    padding: 0;
+    color: white;
+    height: 40px;
+    font-weight: 900;
+}
+span{
+    color: white;
+}
+#back-to-motus{
+    color: #9F3BC4;
+}

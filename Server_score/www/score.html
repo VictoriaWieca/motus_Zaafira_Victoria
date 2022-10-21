@@ -7,7 +7,6 @@
             th,
             td {
                 padding: 10px;
-                border: 1px solid black;
                 border-collapse: collapse;
             }
         </style>
@@ -20,28 +19,25 @@
     </script>
 
 
-    <br><a href="http://localhost:3000/index.html">Retour au Motus</a><br><br>
+    <br><input type="button" id="back-to-motus" onclick="location.href='http://localhost:3000/index.html';" value="Back to Motus"></input><br><br>
 
-
+<div id="score-body">
     <table>
-        <thead>
-            <tr>
-                <th>Info</th>
-                <th>Value</th>
-            </tr>
-        </thead>
         <tbody>
+            <th>
+                <h1>Votre score 👑</h1>
+            </th>
             <tr>
-                <td>Nb Word(s) found</td>
-                <td><span id="myScore"></span></td>
+                <td class="score"> Nb de mot(s) trouvé(s)</td>
+                <td class="score"><span id="myScore"></span></td>
             </tr>
             <tr>
-                <td>Average try</td>
-                <td id="myAverage"></td>
+                <td class="average">Nb d'essai(s) moyen</td>
+                <td class="average" id="myAverage"></td>
             </tr>
         </tbody>
     </table>
-
+</div>
 
     <script>
         var score='';

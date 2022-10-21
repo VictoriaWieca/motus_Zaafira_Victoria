@@ -7,24 +7,27 @@
       integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" 
       crossorigin="anonymous">
     </script>
+<div id="login-body">
     <form id="login" action="http://localhost:5000/authorize" method="POST">
-        <label for="fname">Please login</label><br>
-        <input type="text" id="myLogin" name="myLogin" value=""><br>
-        <input type="password" id="myPass" name="myPass" value=""><br>
+        <h2>Please login</h2><br>
+        <input type="text" id="myLogin" name="myLogin" value=""><br><br>
+        <input type="password" id="myPass" name="myPass" value=""><br><br>
         <input type="Submit" id="submit_login" value="Submit">
     </form><br><br>
-    <span  id='connected' style="visibility: hidden;">Vous êtes déjà connecté</span>
-    <a href="http://localhost:3000/index.html">Back to Motus</a>
-
+    <span  id='connected' style="visibility: hidden;">Vous êtes déjà connecté. </span>
+    <a id="back-to-motus" href="http://localhost:3000/index.html">Retour au Motus</a>
+</div>
     <script>
         $.get("/logged", function( data ) {
             if(parseInt(data)==1){
                 document.getElementById('login').style.visibility = 'hidden';
                 document.getElementById('connected').style.visibility = 'visible';
+                document.getElementById('back-to-motus').style.visibility = 'visible';
             }
             else{
                 document.getElementById('login').style.visibility = 'visible';
                 document.getElementById('connected').style.visibility = 'hidden';
+                document.getElementById('back-to-motus').style.visibility = 'hidden';
             }
         })
         
