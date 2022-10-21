@@ -23,22 +23,31 @@ Puis aller sur http://localhost:3000
 
 ```mermaid
 sequenceDiagram
-    Client->>+Server: /
-    Server->>Client: index.html
-    note right of Client : if local storage item "name" does not exist
-    Client->>Server: /login.html
-    Server->>Client: login.html
-    note right of Client : set login in local storage
-    Client->>Server: /index.html
-    Server->>Client: index.html
-    Client->>Server: /word
-    Server->>Client: word_of_today
+    sequenceDiagram
+    Client->>+Server_auth: /
+    Server_auth->>Client: login.html
+    note right of Client : if user is not connected
+    Client->>Server_auth: login & password
+    Server_auth->>Client: token
+    note right of Client : if login & password correct
+    Client->>Server_motus: /callback?token=XXXX
+    Server_motus->>Client: redirect_uri
+    Client->>Server_auth: /authorize?redirect_uri=localhost:3000/index.html
+    Server_auth->>Client: localhost:3000/index.html
+    Server_motus->>Server_motus: /session
+    note right of Server_motus: store login in session
+    Client->>Server_motus: /word
+    Server_motus->>Client: word of today
     Client->>Client: Guessing 
-    Client->>Server: boolean guess (if the player failed or succeeded to find the word)
-    Server->>Server2: /score and send if the player guessed the word or not 
-    Server2->>Server: score.html and database with score and average tries
-    Server->>Client: score.html and database with score and average tries
-    Client->>Client: display score from database
+    Client->>Server_score: boolean guess (if the player failed or succeeded to find the word)
+    Server_score->>Server_score: Calculation
+    Server_score->>Client: score.html
+    Client->>Server_motus: /logout
+    Server_motus->>Client: destroy session & redirect to localhost:5000/login.html
+
+
+
+            
 ```
 
 ## API Score
